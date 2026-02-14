@@ -18,7 +18,7 @@ import { toast } from "sonner";
 const navItems = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/" },
   { icon: Code2, label: "Problems", path: "/problems" },
-  { icon: Trophy, label: "Contests", path: "/contests" },
+  { icon: Trophy, label: "Lab Exams", path: "/contests" },
   { icon: FileText, label: "Submissions", path: "/submissions" },
   { icon: Bookmark, label: "Bookmarks", path: "/bookmarks" },
   { icon: BarChart3, label: "Progress", path: "/progress" },

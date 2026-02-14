@@ -164,12 +164,29 @@ const ContestCard = ({ contest, index }: { contest: Contest; index: number }) =>
                 {contest.problems.length} problems
               </span>
             )}
+            {contest.totalPoints !== undefined && (
+              <span className="flex items-center gap-1.5 font-medium text-warning">
+                🏆 {contest.totalPoints} points
+              </span>
+            )}
           </div>
 
           {contest.status === "COMPLETED" && (
-            <div className="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-success/10 border border-success/20">
-              <CheckCircle2 className="w-4 h-4 text-success" />
-              <span className="text-xs font-medium text-success">Participated</span>
+            <div className="mt-3 flex items-center gap-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-success/10 border border-success/20">
+                <CheckCircle2 className="w-4 h-4 text-success" />
+                <span className="text-xs font-medium text-success">Participated</span>
+              </div>
+              <div className="flex items-center gap-4 text-sm">
+                <span className="text-muted-foreground">Your Score:</span>
+                <span className="font-semibold text-primary">
+                  {contest.studentScore || 0} / {contest.totalPoints || 0}
+                </span>
+                <span className="text-muted-foreground">•</span>
+                <span className="text-success">
+                  {contest.solvedCount || 0} / {contest.problems?.length || 0} solved
+                </span>
+              </div>
             </div>
           )}
         </div>

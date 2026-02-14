@@ -16,16 +16,16 @@ const DashboardPage = () => {
     queryFn: () => getProblems({ status: "ATTEMPTED", limit: 3 }),
   });
 
-  const { data: contestsData } = useQuery({
-    queryKey: ["active-contests"],
+  const { data: examsData } = useQuery({
+    queryKey: ["active-exams"],
     queryFn: getActiveContests,
   });
 
   // Handle array or object responses
   const problems: Problem[] = Array.isArray(problemsData) ? problemsData : 
     (problemsData?.problems || problemsData?.items || []);
-  const contests: Contest[] = Array.isArray(contestsData) ? contestsData : 
-    (contestsData?.contests || contestsData?.items || []);
+  const exams: Contest[] = Array.isArray(examsData) ? examsData : 
+    (examsData?.contests || examsData?.items || []);
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
       {/* Hero */}
@@ -52,8 +52,8 @@ const DashboardPage = () => {
         </div>
         <div className="glass-card rounded-xl p-5 hover-lift">
           <Trophy className="w-5 h-5 text-warning mb-2" />
-          <p className="text-3xl font-bold">{contests.length}</p>
-          <p className="text-sm text-muted-foreground">Active Contests</p>
+          <p className="text-3xl font-bold">{exams.length}</p>
+          <p className="text-sm text-muted-foreground">Active Lab Exams</p>
         </div>
         <div className="glass-card rounded-xl p-5 hover-lift">
           <TrendingUp className="w-5 h-5 text-secondary mb-2" />
@@ -93,10 +93,10 @@ const DashboardPage = () => {
         </div>
 
         <div className="glass-card rounded-xl p-5">
-          <h2 className="font-semibold mb-3">Upcoming Contests</h2>
+          <h2 className="font-semibold mb-3">Upcoming Lab Exams</h2>
           <div className="space-y-2">
-            {contests.length > 0 ? (
-              contests.slice(0, 2).map((c, i) => (
+            {exams.length > 0 ? (
+              exams.slice(0, 2).map((c, i) => (
                 <Link
                   key={i}
                   to={`/contests/${c.id}`}
@@ -112,12 +112,12 @@ const DashboardPage = () => {
                 </Link>
               ))
             ) : (
-              <p className="text-sm text-muted-foreground text-center py-4">No upcoming contests</p>
+              <p className="text-sm text-muted-foreground text-center py-4">No upcoming lab exams</p>
             )}
           </div>
           <Button variant="ghost" size="sm" className="mt-2 w-full" asChild>
             <Link to="/contests">
-              View All Contests <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
+              View All Lab Exams <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
             </Link>
           </Button>
         </div>
