@@ -123,9 +123,9 @@ const SubmissionDetailPage = () => {
         {submission.contestId && (
           <div className="mt-4 p-3 bg-primary/10 border border-primary/20 rounded-lg">
             <p className="text-sm">
-              <span className="text-primary font-semibold">Contest Submission</span>
+              <span className="text-primary font-semibold">Lab Exam Submission</span>
               <span className="text-muted-foreground ml-2">
-                This submission was made during a contest
+                This submission was made during a lab exam
               </span>
             </p>
           </div>
