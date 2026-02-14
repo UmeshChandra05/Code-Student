@@ -19,7 +19,7 @@ api.interceptors.request.use(
     if (token && !config.headers.Authorization) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    
+
     // Log all requests for debugging
     console.log('[API Request]', {
       method: config.method?.toUpperCase(),
@@ -30,7 +30,7 @@ api.interceptors.request.use(
       data: config.data,
       params: config.params
     });
-    
+
     return config;
   },
   (error) => {
@@ -55,7 +55,7 @@ api.interceptors.response.use(
   (error) => {
     const status = error.response?.status;
     const message = error.response?.data?.message || '';
-    
+
     // Log error details
     console.error('[API Error]', {
       method: error.config?.method?.toUpperCase(),
@@ -223,7 +223,7 @@ export interface RunResult {
   expectedOutput?: string;      // Expected output (may be hidden for non-sample test cases)
   actualOutput?: string;        // Actual output from execution
   input?: string;               // Input (only for sample test cases)
-  
+
   // For backward compatibility with UI code
   executionTime?: number;       // Alias for time
   memoryUsed?: number;          // Alias for memory
@@ -277,7 +277,7 @@ async function fetchAPI(endpoint: string, options: { method?: string; data?: any
       data: options.data,
       params: options.params,
     });
-    
+
     // Return data - let consumers handle the structure
     // Backend might return { success, message, data } or just data directly
     return response.data.data || response.data;
@@ -286,7 +286,7 @@ async function fetchAPI(endpoint: string, options: { method?: string; data?: any
       error.response?.data?.error?.message ||
       error.message ||
       'Request failed';
-    
+
     console.error('[API fetchAPI Failed]', {
       endpoint,
       method: options.method || 'GET',
@@ -294,7 +294,7 @@ async function fetchAPI(endpoint: string, options: { method?: string; data?: any
       errorData: error.response?.data,
       status: error.response?.status
     });
-    
+
     throw new Error(errorMessage);
   }
 }
@@ -421,3 +421,19 @@ export const clearAuthToken = () => {
 export const getAuthToken = () => {
   return localStorage.getItem('studentAccessToken');
 };
+
+// ==================== WRAPPER FUNCTIONS FOR COMPATIBILITY ====================
+// These wrappers match the naming convention expected by useApi.ts hooks
+
+export const fetchProblems = getProblems;
+export const fetchProblem = getProblemById;
+export const fetchBookmarks = getBookmarks;
+export const fetchMySubmissions = getMySubmissions;
+export const fetchSubmission = getSubmissionById;
+export const fetchMyProgress = getMyProgress;
+export const fetchContests = getContests;
+export const fetchActiveContests = getActiveContests;
+export const fetchContest = getContestById;
+export const fetchContestLeaderboard = getContestLeaderboard;
+export const fetchMyContests = getMyContests;
+export const fetchLanguages = getLanguages;
