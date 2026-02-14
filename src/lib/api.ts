@@ -178,6 +178,10 @@ export interface Contest {
   freezeTime?: number;
   accessCode?: string;
   isActive: boolean;
+  totalPoints?: number;
+  studentScore?: number;
+  solvedCount?: number;
+  isRegistered?: boolean;
   problems?: ContestProblem[];
   participants?: number;
 }
@@ -376,7 +380,7 @@ export const getSubmissionById = async (id: string) => {
   return fetchAPI(`/api/student/coding/my-submissions/${id}`);
 };
 
-// Contests
+// Lab Exams (uses contest endpoints)
 export const getContests = async (params?: { status?: string; page?: number; limit?: number }) => {
   return fetchAPI('/api/student/coding/contests', { params });
 };
