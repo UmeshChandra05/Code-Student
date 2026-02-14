@@ -1,11 +1,9 @@
 import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { Calendar, Clock, Users, Trophy, Lock, Globe, Loader2 } from "lucide-react";
+import { Calendar, Clock, Users, Trophy, Lock, Globe } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getContests } from "@/lib/api";
-import type { Contest } from "@/lib/api";
-import { toast } from "sonner";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useContests } from "@/hooks/useApi";
 
 const statusStyle: Record<string, string> = {
   LIVE: "bg-success/15 text-success border-success/30 animate-pulse-glow",
@@ -14,33 +12,34 @@ const statusStyle: Record<string, string> = {
 };
 
 const ContestsPage = () => {
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["exams"],
-    queryFn: () => getContests(),
-  });
+  const { data, isLoading, error } = useContests();
 
   // Handle array or object responses and filter out DRAFT exams
-  const allExams: Contest[] = Array.isArray(data) ? data :
-    (data?.contests || data?.items || []);
+  const allExams = Array.isArray(data) ? data : data?.contests ?? data?.data ?? [];
 
   // Students shouldn't see DRAFT exams (admin-only)
-  const exams = allExams.filter(c => c.status !== 'DRAFT');
+  const exams = allExams.filter((c: any) => c.status !== 'DRAFT');
 
   if (isLoading) {
     return (
-      <div className="p-6 max-w-7xl mx-auto flex items-center justify-center h-96">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      <div className="p-6 max-w-7xl mx-auto space-y-6">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Lab Exams</h1>
+          <p className="text-muted-foreground mt-1">Test your skills with timed coding challenges</p>
+        </div>
+        <div className="space-y-4">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <Skeleton key={i} className="h-32 w-full rounded-xl" />
+          ))}
+        </div>
       </div>
     );
   }
 
-  if (isError) {
+  if (error) {
     return (
-      <div className="p-6 max-w-7xl mx-auto flex items-center justify-center h-96">
-        <div className="text-center space-y-4">
-          <div className="text-red-500 text-xl font-semibold">Failed to load lab exams</div>
-          <p className="text-muted-foreground">{(error as Error)?.message || 'Unknown error occurred'}</p>
-        </div>
+      <div className="p-6 max-w-7xl mx-auto text-center py-12 text-destructive">
+        <p>Failed to load lab exams: {(error as Error).message}</p>
       </div>
     );
   }
